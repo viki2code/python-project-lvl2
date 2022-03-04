@@ -1,7 +1,8 @@
 {
     author: Charles R. Saunders
   + book: Imaro
-    language: English
-  - pages: 224
-    publication-year: 1981
+  - language: English
+  - publication-year: 1982
+  + publication-year: 1981,
+    pages: 224
 }
