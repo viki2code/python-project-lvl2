@@ -1,19 +1,12 @@
-from gendiff.data_parser import parsing
+from gendiff.data_parser import parsing, get_file_type
 from operator import itemgetter
 
 
-def add_value(sign, keys, value):
+def add_value(action, keys, value):
     result = {}
     for key in keys:
-        result.update({(sign, key): value[key]})
+        result[key] = {'action': action, 'value': value[key]}
     return result
-
-
-def get_file_type(file_name):
-    if file_name.endswith('.yaml') or file_name.endswith('.yml'):
-        return 'yml'
-    elif file_name.endswith('.json'):
-        return 'json'
 
 
 def generate_diff(file_path1, file_path2):
@@ -27,19 +20,23 @@ def generate_diff(file_path1, file_path2):
         result_dict = {}
         for key in common_keys:
             if isinstance(value1[key], dict) and isinstance(value2[key], dict):
-                result_dict[(' ', key)] = walk(value1[key], value2[key])
+                result_dict[key] = \
+                    {'action': 'unchanged',
+                     'value': walk(value1[key], value2[key])}
             elif value1[key] == value2[key]:
-                result_dict.update({(' ', key): value1[key]})
+                result_dict[key] = \
+                    {'action': 'unchanged',
+                     'value': value1[key]}
             else:
-                result_dict.update({('-', key): value1[key]})
-                result_dict.update({('+', key): value2[key]})
-        diff_dict = add_value('-', diff_keys, value1)
-        add_dict = add_value('+', add_keys, value2)
-        result_dict.update(diff_dict)
-        result_dict.update(add_dict)
-        sorted_key = sorted(result_dict.keys(), key=itemgetter(1))
-        sorted_result_dict = {}
-        for i in sorted_key:
-            sorted_result_dict[i] = result_dict[i]
+                result_dict[key] = \
+                    {'action': 'changed',
+                     'old_value': value1[key],
+                     'value': value2[key]}
+        # add deleted element in compare dictionary
+        result_dict.update(add_value('deleted', diff_keys, value1))
+        # add added element in compare dictionary
+        result_dict.update(add_value('added', add_keys, value2))
+        sorted_result_dict = dict(sorted(result_dict.items(),
+                                         key=itemgetter(0)))
         return sorted_result_dict
     return walk(data1, data2)
