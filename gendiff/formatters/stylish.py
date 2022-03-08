@@ -4,7 +4,8 @@ import json
 ACTION_SIGN = {'changed': ['-', '+'],
                'unchanged': ' ',
                'added': '+',
-               'deleted': '-'}
+               'deleted': '-',
+               'nested': ' '}
 
 
 def get_str(value):

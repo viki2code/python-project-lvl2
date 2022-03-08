@@ -1,4 +1,5 @@
 from gendiff.data_parser import parsing, get_file_type
+from gendiff.formatters.format import format_diff
 from operator import itemgetter
 
 
@@ -9,10 +10,7 @@ def add_value(action, keys, value):
     return result
 
 
-def generate_diff(file_path1, file_path2):
-    data1 = parsing(open(file_path1), get_file_type(file_path1))
-    data2 = parsing(open(file_path2), get_file_type(file_path2))
-
+def compare_data(data1, data2):
     def walk(value1, value2):
         common_keys = value1.keys() & value2.keys()
         diff_keys = value1.keys() - value2.keys()
@@ -21,7 +19,7 @@ def generate_diff(file_path1, file_path2):
         for key in common_keys:
             if isinstance(value1[key], dict) and isinstance(value2[key], dict):
                 result_dict[key] = \
-                    {'action': 'unchanged',
+                    {'action': 'nested',
                      'value': walk(value1[key], value2[key])}
             elif value1[key] == value2[key]:
                 result_dict[key] = \
@@ -39,4 +37,12 @@ def generate_diff(file_path1, file_path2):
         sorted_result_dict = dict(sorted(result_dict.items(),
                                          key=itemgetter(0)))
         return sorted_result_dict
+
     return walk(data1, data2)
+
+
+def generate_diff(file_path1, file_path2, format_name):
+    data1 = parsing(open(file_path1), get_file_type(file_path1))
+    data2 = parsing(open(file_path2), get_file_type(file_path2))
+    diff = compare_data(data1, data2)
+    return format_diff(diff, format_name)
