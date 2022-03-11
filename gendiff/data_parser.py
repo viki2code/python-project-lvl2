@@ -11,7 +11,7 @@ def get_file_type(file_name):
 
 def parsing(data, file_type):
     try:
-        if file_type.upper() == 'YML' or file_type.upper() == 'YML':
+        if file_type.upper() == 'YML' or file_type.upper() == 'YAML':
             return safe_load(data)
         elif file_type.upper() == 'JSON':
             return load(data)
