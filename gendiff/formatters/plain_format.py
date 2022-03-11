@@ -12,22 +12,22 @@ def get_name_value(value):
     return json.dumps(value).replace('"', "'")
 
 
-def plain(data):
+def plain_format(data):
     def walk(current_value, path):
         result_list = []
-        for key, value_ in current_value.items():
-            if isinstance(value_, dict) \
-                    and value_.get('action') != 'unchanged':
+        for key, value in current_value.items():
+            if isinstance(value, dict) \
+                    and value.get('action') != 'unchanged':
                 path.append(key)
-                if value_.get('action') == 'nested':
-                    result_list.append(walk(value_.get('value'), path))
+                if value.get('action') == 'nested':
+                    result_list.append(walk(value.get('value'), path))
                 else:
-                    old_value = get_name_value(value_.get('old_value'))
-                    value = get_name_value(value_.get('value'))
-                    result_list.append(MESSAGE[value_.get('action')].format(
+                    old_value = get_name_value(value.get('old_value'))
+                    new_value = get_name_value(value.get('value'))
+                    result_list.append(MESSAGE[value.get('action')].format(
                         path='.'.join(path),
                         old_value=old_value,
-                        value=value
+                        value=new_value
                     ))
                 path.pop(len(path) - 1)
         return '\n'.join(result_list)
