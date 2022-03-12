@@ -11,7 +11,6 @@ RESULT_DICT = {'host': 'hexlet.io', 'timeout': 50, 'proxy': '123.234.53.22', 'fo
 def test_parsing():
     assert parsing(open(FILE_FLAT_FIRST_JSON), 'json') == RESULT_DICT
     assert parsing(open(FILE_FLAT_FIRST_YML), 'yml') == RESULT_DICT
-    assert parsing(open(FILE_FLAT_FIRST_YML), 'txt') is None
 
 
 def test_file_type():

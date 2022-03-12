@@ -2,6 +2,8 @@ import os
 import pytest
 from gendiff.generate_diff import generate_diff
 from gendiff.formatters.format import STYlISH_FORMAT, PLAIN_FORMAT, JSON_FORMAT
+import typing
+
 
 FIXTURES_FOLDER = 'fixtures'
 
@@ -43,3 +45,7 @@ def get_correct_result(path_file):
     (FILE_NESTED_FIRST_YML, FILE_NESTED_SECOND_YML, RESULT_NESTED_JSON, JSON_FORMAT)])
 def test_gendiff(first_file, second_file, result_file, format_name):
     assert generate_diff(first_file, second_file, format_name) == get_correct_result(result_file)
+
+
+def test_gendiff_type():
+    assert isinstance(generate_diff, typing.Callable)
