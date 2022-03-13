@@ -1,11 +1,13 @@
 import itertools
 import json
+from gendiff.actions import CHANGED, ADDED, DELETED, NESTED, UNCHANGED
 
-ACTION_SIGN = {'changed': ['-', '+'],
-               'unchanged': ' ',
-               'added': '+',
-               'deleted': '-',
-               'nested': ' '}
+
+ACTION_SIGN = {CHANGED: ['-', '+'],
+               UNCHANGED: ' ',
+               ADDED: '+',
+               DELETED: '-',
+               NESTED: ' '}
 
 
 def get_str(value):

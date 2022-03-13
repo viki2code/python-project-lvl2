@@ -1,9 +1,10 @@
 import json
+from gendiff.actions import CHANGED, ADDED, DELETED, NESTED, UNCHANGED
 
-MESSAGE = {'changed': "Property '{path}' was updated. "
-                      "From {old_value} to {value}",
-           'added': "Property '{path}' was added with value: {value}",
-           'deleted': "Property '{path}' was removed"}
+MESSAGE_PLAIN = {CHANGED: "Property '{path}' was updated. "
+                          "From {old_value} to {value}",
+                 ADDED: "Property '{path}' was added with value: {value}",
+                 DELETED: "Property '{path}' was removed"}
 
 
 def get_name_value(value):
@@ -17,14 +18,14 @@ def plain_format(data):
         result_list = []
         for key, value in current_value.items():
             if isinstance(value, dict) \
-                    and value.get('action') != 'unchanged':
+                    and value.get('action') != UNCHANGED:
                 path.append(key)
-                if value.get('action') == 'nested':
+                if value.get('action') == NESTED:
                     result_list.append(walk(value.get('value'), path))
                 else:
                     old_value = get_name_value(value.get('old_value'))
                     new_value = get_name_value(value.get('value'))
-                    result_list.append(MESSAGE[value.get('action')].format(
+                    result_list.append(MESSAGE_PLAIN[value.get('action')].format(
                         path='.'.join(path),
                         old_value=old_value,
                         value=new_value
