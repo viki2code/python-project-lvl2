@@ -1,6 +1,6 @@
 import os
 import pytest
-from gendiff.generate_diff import generate_diff
+from gendiff.gendiff import generate_diff
 from gendiff.formatters.format import STYlISH_FORMAT, PLAIN_FORMAT, JSON_FORMAT
 import typing
 

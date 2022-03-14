@@ -8,5 +8,4 @@ def generate_diff(file_path1, file_path2, format_name):
     data1 = parsing(get_data(file_path1), get_extension(file_path1))
     data2 = parsing(get_data(file_path2), get_extension(file_path2))
     diff = compare_data(data1, data2)
-    result = format_diff(diff, format_name)
-    return result
+    return format_diff(diff, format_name)
