@@ -30,7 +30,7 @@ def stylish_format(data, replacer=' ', spaces_count=1):
             is_value_dict = isinstance(value, dict)
             if (is_value_dict and value.get('action') is None) \
                     or not is_value_dict:
-                sign = ACTION_SIGN['unchanged']
+                sign = ACTION_SIGN[UNCHANGED]
                 new_value = value
             else:
                 sign = ACTION_SIGN[value.get('action')]

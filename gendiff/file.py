@@ -1,17 +1,14 @@
+import os
+
 YAML = 'YAML'
 YML = 'YML'
 JSON = 'JSON'
 
 
-def get_data_format(file):
-    try:
-        data = open(file)
-    except OSError:
-        raise Exception(f'Could not open file: {file}')
-    if file.upper().endswith(YML) or file.upper().endswith(YAML):
-        data_format = YML
-    elif file.upper().endswith(JSON):
-        data_format = JSON
-    else:
-        raise Exception("This format is not supported")
-    return data, data_format
+def get_data(file_path):
+    return open(file_path)
+
+
+def get_extension(file_path):
+    file_extension = os.path.splitext(file_path)[1]
+    return file_extension.replace('.', '')

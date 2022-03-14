@@ -17,15 +17,16 @@ def plain_format(data):
     def walk(current_value, path):
         result_list = []
         for key, value in current_value.items():
+            action = value.get('action')
             if isinstance(value, dict) \
-                    and value.get('action') != UNCHANGED:
+                    and action != UNCHANGED:
                 path.append(key)
-                if value.get('action') == NESTED:
+                if action == NESTED:
                     result_list.append(walk(value.get('value'), path))
                 else:
                     old_value = get_name_value(value.get('old_value'))
                     new_value = get_name_value(value.get('value'))
-                    result_list.append(MESSAGE_PLAIN[value.get('action')].format(
+                    result_list.append(MESSAGE_PLAIN[action].format(
                         path='.'.join(path),
                         old_value=old_value,
                         value=new_value
