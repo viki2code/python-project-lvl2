@@ -50,5 +50,3 @@ def get_correct_result(path_file):
 def test_gendiff(first_file, second_file, result_file, format_name):
     assert isinstance(generate_diff, typing.Callable)
     assert generate_diff(first_file, second_file, format_name) == get_correct_result(result_file)
-
-
