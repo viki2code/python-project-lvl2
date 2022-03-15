@@ -2,7 +2,6 @@ import itertools
 import json
 from gendiff.actions import CHANGED, ADDED, DELETED, NESTED, UNCHANGED
 
-
 ACTION_SIGN = {CHANGED: ['-', '+'],
                UNCHANGED: ' ',
                ADDED: '+',
@@ -17,7 +16,7 @@ def get_str(value):
         return json.dumps(value)
 
 
-def stylish_format(data, replacer=' ', spaces_count=1):
+def convert_dict(data, replacer=' ', spaces_count=1):
     def walk(current_value, depth):
         if not isinstance(current_value, dict):
             return get_str(current_value)
@@ -47,3 +46,7 @@ def stylish_format(data, replacer=' ', spaces_count=1):
         return '\n'.join(result)
 
     return walk(data, 1)
+
+
+def stylish_format(data):
+    return convert_dict(data, replacer=' ', spaces_count=2)

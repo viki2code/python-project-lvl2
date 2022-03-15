@@ -5,8 +5,10 @@ YML = 'YML'
 JSON = 'JSON'
 
 
-def get_data(file_path):
-    return open(file_path)
+def read_file(file_path):
+    with open(file_path) as f:
+        data = f.read()
+    return data
 
 
 def get_extension(file_path):

@@ -9,7 +9,7 @@ JSON_FORMAT = 'JSON'
 
 def format_diff(data, format_name):
     if format_name.upper() == STYlISH_FORMAT:
-        return stylish_format(data, ' ', 2)
+        return stylish_format(data)
     elif format_name.upper() == PLAIN_FORMAT:
         return plain_format(data)
     elif format_name.upper() == JSON_FORMAT:
